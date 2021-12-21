@@ -45,10 +45,18 @@ func CreateUser(c *gin.Context) {
 func GetUser(c *gin.Context) {
 	userId, userErr := strconv.ParseInt(c.Param("user_id"), 10, 64)
 	if userErr != nil {
-		err := errors.NewBadRequessrError("inavalid user id ")
+		err := errors.NewBadRequessrError("user id should be a number")
 		c.JSON(err.Status, err)
 		return
 	}
 
-	c.String(http.StatusNotImplemented, "implement me")
+	user, getErr := services.GetUser(userId)
+	if getErr != nil {
+		//TODO  handle user creation error
+		c.JSON(getErr.Status, getErr)
+		return
+	}
+	
+
+	c.JSON(http.StatusOK, user)
 }
