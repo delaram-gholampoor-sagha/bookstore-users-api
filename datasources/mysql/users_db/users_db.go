@@ -4,6 +4,9 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+
+	// we are using this import for the open collection method
+	_ "github.com/go-sql-driver/mysql"
 )
 
 // check out this link : https://github.com/golang/go/wiki/SQLInterface
