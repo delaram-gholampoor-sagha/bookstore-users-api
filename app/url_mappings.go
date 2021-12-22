@@ -6,7 +6,7 @@ import (
 )
 
 func MapUrls() {
-
+	// we are defining the function that needs to be executed against this path
 	router.GET("/ping", ping.Ping)
 
 	router.GET("/users/:user_id", users.GetUser)

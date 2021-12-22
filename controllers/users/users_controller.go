@@ -20,12 +20,14 @@ func CreateUser(c *gin.Context) {
 	// 	// TODO : handle error
 	// 	return
 	// }
+	// the marshal takes the json input and tries to populate the given struct
 	// if err := json.Unmarshal(bytes, &user); err != nil {
 	// 	// TODO handle json error
 	// 	return
 	// }
 
 	// solution 2
+	// take the parameters that you need to process that request
 	if err := c.ShouldBindJSON(&user); err != nil {
 		// TODO handle json error
 		restErr := errors.NewBadRequessrError("invalid json body")
@@ -33,9 +35,13 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
+	// the controller is not in charge of knowing  where and how we are storing different users
+	//and send that request to the service
 	result, saveErr := services.CreateUser(user)
+	// if have any error we are gonna return that error and return
 	if saveErr != nil {
 		//TODO  handle user creation error
+		// this is the status code and this is the json response
 		c.JSON(saveErr.Status, saveErr)
 		return
 	}
@@ -56,7 +62,6 @@ func GetUser(c *gin.Context) {
 		c.JSON(getErr.Status, getErr)
 		return
 	}
-	
 
 	c.JSON(http.StatusOK, user)
 }
