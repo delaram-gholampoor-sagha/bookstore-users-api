@@ -1,6 +1,8 @@
 package errors
 
-import "net/http"
+import (
+	"net/http"
+)
 
 type RestErr struct {
 	Message string `json:"message"`
@@ -23,5 +25,12 @@ func NewNotFoundError(message string) *RestErr {
 		Status:  http.StatusNotFound,
 		Error:   "Not_Found",
 	}
+}
 
+func NewIntervalServerError(message string) *RestErr {
+	return &RestErr{
+		Message: message,
+		Status:  http.StatusInternalServerError,
+		Error:   "Internal_Server_Error",
+	}
 }
