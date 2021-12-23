@@ -3,9 +3,13 @@
 //  important //the only point in our entire applicaion where you work with the database is indeed over here
 // here we are going to have the entire logic to persist and to retrieve this user from the database
 
+// by using the dqo file we separete the bussiness logic from the persistance layer
+
 package users
 
 import (
+	"fmt"
+
 	"github.com/delaram-gholampoor-sagha/bookstore-users-api/datasources/mysql/users_db"
 	"github.com/delaram-gholampoor-sagha/bookstore-users-api/utils/date_utils"
 	"github.com/delaram-gholampoor-sagha/bookstore-users-api/utils/errors"
@@ -13,11 +17,12 @@ import (
 )
 
 const (
-	indexUniqueEmail = "email_UNIQUE"
-	queryInsertUser  = "INSERT INTO users(first_name , last_name , email , date_created) VALUES(?, ?, ?, ?);"
-	GetUser          = "SELECT id , first_name , last_name , email , date_created  FROM users WHERE id = ? ;"
-	queryUpdateuser  = "UPDATE users SET first_name = ? , last_name = ? , email = ? WHERE id = ? ;"
-	queryDeleteuser  = "DELETE FROM users WHERE id = ? ;"
+	indexUniqueEmail      = "email_UNIQUE"
+	queryInsertUser       = "INSERT INTO users(first_name , last_name , email , date_created) VALUES(?, ?, ?, ?);"
+	GetUser               = "SELECT id , first_name , last_name , email , date_created  FROM users WHERE id = ? ;"
+	queryUpdateUser       = "UPDATE users SET first_name = ? , last_name = ? , email = ? WHERE id = ? ;"
+	queryDeleteUser       = "DELETE FROM users WHERE id = ? ;"
+	queryFindUserByStatus = "SELECT id , fisrt_name , last_name , email , date_created , status FROM users WHERE status=? ;"
 )
 
 // when we say get we get a user by its id (primary key)
@@ -66,7 +71,7 @@ func (user *User) Save() *errors.RestErr {
 
 func (user *User) Update() *errors.RestErr {
 
-	stmt, err := users_db.Client.Prepare(queryUpdateuser)
+	stmt, err := users_db.Client.Prepare(queryUpdateUser)
 	if err != nil {
 		return errors.NewIntervalServerError(err.Error())
 	}
@@ -84,7 +89,7 @@ func (user *User) Update() *errors.RestErr {
 }
 
 func (user *User) Delete() *errors.RestErr {
-	stmt, err := users_db.Client.Prepare(queryDeleteuser)
+	stmt, err := users_db.Client.Prepare(queryDeleteUser)
 	if err != nil {
 		return errors.NewIntervalServerError(err.Error())
 	}
@@ -94,4 +99,38 @@ func (user *User) Delete() *errors.RestErr {
 		return mysql_utils.ParseError(err)
 	}
 	return nil
+}
+
+func (user *User) FindUserByStatus(status string) ([]User, *errors.RestErr) {
+
+	stmt, err := users_db.Client.Prepare(queryFindUserByStatus)
+	if err != nil {
+		return nil, errors.NewIntervalServerError(err.Error())
+	}
+	defer stmt.Close()
+
+	// if we have any error we are not going to look at  any parameters on the left
+	rows, err := stmt.Query(queryFindUserByStatus)
+
+	if err != nil {
+		return nil, errors.NewIntervalServerError(err.Error())
+	}
+	// we always defer once we know we have a valid result
+	defer rows.Close()
+
+	results := make([]User, 0)
+	for rows.Next() {
+		var user User
+		// we always have to pass a pointer to the scan function
+		if err := rows.Scan(&user.Id, &user.FirstName, &user.LastName, &user.Email, &user.DateCreated, &user.Status); err != nil {
+			return nil, mysql_utils.ParseError(err)
+		}
+		results = append(results, user)
+	}
+
+	if len(results) == 0 {
+		return nil, errors.NewNotFoundError(fmt.Sprintf("no users matching status %s", status))
+	}
+
+	return results, nil
 }
