@@ -17,8 +17,8 @@ import (
 
 const (
 	indexUniqueEmail      = "email_UNIQUE"
-	queryInsertUser       = "INSERT INTO users(first_name , last_name , email , date_created , password , status) VALUES(?, ?, ?, ?);"
-	GetUser               = "SELECT id , first_name , last_name , email , date_created  FROM users WHERE id = ? ;"
+	queryInsertUser       = "INSERT INTO users(first_name , last_name , email , date_created , status , password) VALUES(?, ?, ?, ? , ?, ?);"
+	GetUser               = "SELECT id , first_name , last_name , email , date_created , status FROM users WHERE id = ? ;"
 	queryUpdateUser       = "UPDATE users SET first_name = ? , last_name = ? , email = ? WHERE id = ? ;"
 	queryDeleteUser       = "DELETE FROM users WHERE id = ? ;"
 	queryFindUserByStatus = "SELECT id , fisrt_name , last_name , email , date_created , status FROM users WHERE status=? ;"
@@ -34,7 +34,7 @@ func (user *User) Get() *errors.RestErr {
 
 	result := stmt.QueryRow()
 	// take what ever you have as an id in the database and use that value to populate these fields
-	if getErr := result.Scan(&user.Id, &user.FirstName, &user.LastName, &user.Email, &user.DateCreated); getErr != nil {
+	if getErr := result.Scan(&user.Id, &user.FirstName, &user.LastName, &user.Email, &user.DateCreated, &user.Status); getErr != nil {
 
 		return mysql_utils.ParseError(getErr)
 
@@ -52,7 +52,7 @@ func (user *User) Save() *errors.RestErr {
 
 	defer stmt.Close()
 
-	insertResult, saveErr := stmt.Exec(user.FirstName, user.LastName, user.Email, user.DateCreated, user.Password, user.DateCreated)
+	insertResult, saveErr := stmt.Exec(user.FirstName, user.LastName, user.Email, user.DateCreated, user.Status, user.Password)
 	if saveErr != nil {
 		return mysql_utils.ParseError(saveErr)
 	}
