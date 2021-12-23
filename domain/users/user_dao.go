@@ -16,6 +16,7 @@ const (
 	indexUniqueEmail = "email_UNIQUE"
 	queryInsertUser  = "INSERT INTO users(first_name , last_name , email , date_created) VALUES(?, ?, ?, ?);"
 	GetUser          = "SELECT id , first_name , last_name , email , date_created  FROM users WHERE id = ?"
+	queryUpdateuser  = "UPDATE users SET first_name = ? , last_name = ? , email = ? WHERE id = ?"
 )
 
 // when we say get we get a user by its id (primary key)
@@ -60,4 +61,23 @@ func (user *User) Save() *errors.RestErr {
 
 	user.Id = userId
 	return nil
+}
+
+func (user *User) Update() *errors.RestErr {
+
+	stmt, err := users_db.Client.Prepare(queryUpdateuser)
+	if err != nil {
+		return errors.NewIntervalServerError(err.Error())
+	}
+
+	defer stmt.Close()
+
+	// atemp to execute this sentence with the given values
+	_, err = stmt.Exec(user.FirstName, user.LastName, user.Email, user.Id)
+	if err != nil {
+		return mysql_utils.ParseError(err)
+	}
+
+	return nil
+
 }
