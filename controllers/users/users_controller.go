@@ -105,7 +105,7 @@ func Update(c *gin.Context) {
 
 }
 
-func DELETE(c *gin.Context) {
+func Delete(c *gin.Context) {
 	// take the user id
 	userId, idErr := getUserId(c.Param("user_id"))
 	if idErr != nil {
