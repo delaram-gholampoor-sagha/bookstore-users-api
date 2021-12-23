@@ -9,29 +9,28 @@ import (
 	// we are using this import for the open collection method
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/joho/godotenv"
 )
 
 // check out this link : https://github.com/golang/go/wiki/SQLInterface
 
-const (
-	mysql_users_username = "MYSQL_USERS_USERNAME"
-	mysql_users_password = "MYSQL_USERS_PASSWORD"
-	mysql_users_host     = "MYSQL_USERS_HOST"
-	mysql_users_schema   = "MYSQL_USERS_SCHEMA"
-)
-
 var (
-	Client   *sql.DB
-	username = os.Getenv(mysql_users_username)
-	passowrd = os.Getenv(mysql_users_password)
-	host     = os.Getenv(mysql_users_host)
-	schema   = os.Getenv(mysql_users_schema)
+	Client *sql.DB
 )
 
 // by importing this package you have called the init function
 func init() {
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatalf("Some error occured. Err: %s", err)
+	}
 
-	fmt.Println(username)
+	var (
+		username = os.Getenv("MYSQL_USERS_USERNAME")
+		passowrd = os.Getenv("MYSQL_USERS_PASSWORD")
+		host     = os.Getenv("MYSQL_USERS_HOST")
+		schema   = os.Getenv("MYSQL_USERS_SCHEMA")
+	)
 
 	// over the host we are about to connect / the schema that we want to use
 	// we have configured this database to use utf we are gonna place the charset = utf
