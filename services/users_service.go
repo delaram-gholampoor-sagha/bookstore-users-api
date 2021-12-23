@@ -66,8 +66,8 @@ func UpdateUser(isPartial bool, user users.User) (*users.User, *errors.RestErr) 
 
 // what are the possible results that you might get from deleting a user ? probably just an error
 
-func DeleteUser(userId int64) *error.RestErr {
+func DeleteUser(userId int64) *errors.RestErr {
 	user := &users.User{Id: userId}
-	return users.Delete()
+	return user.Delete()
 
 }
