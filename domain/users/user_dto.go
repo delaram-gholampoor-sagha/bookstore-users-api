@@ -17,6 +17,8 @@ type User struct {
 	LastName    string `json:"last_name"`
 	Email       string `json:"email"`
 	DateCreated string `json:"date_created"`
+	Status      string `json:"status"`
+	Password    string `json:"-"`
 }
 
 // this is a method .... it contains the func keyword , the struct we are assigning this method to the name of the method  , the parameters and at the end what ever we return
