@@ -67,6 +67,7 @@ func GetUser(c *gin.Context) {
 }
 
 func UpdateUser(c *gin.Context) {
+	// take the user id
 	userId, userErr := strconv.ParseInt(c.Param("user_id"), 10, 64)
 	if userErr != nil {
 		err := errors.NewBadRequessrError("user id should be a number")
@@ -74,6 +75,7 @@ func UpdateUser(c *gin.Context) {
 		return
 	}
 
+	// take the json body
 	var user users.User
 	if err := c.ShouldBindJSON(&user); err != nil {
 		// TODO handle json error
@@ -84,7 +86,9 @@ func UpdateUser(c *gin.Context) {
 
 	user.Id = userId
 
-	result, err := services.UpdateUser(user)
+	isPartial := c.Request.Method == http.MethodPatch
+
+	result, err := services.UpdateUser(isPartial, user)
 	if err != nil {
 		c.JSON(err.Status, err)
 		return

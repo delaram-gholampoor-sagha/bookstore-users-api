@@ -21,6 +21,8 @@ type User struct {
 
 // this is a method .... it contains the func keyword , the struct we are assigning this method to the name of the method  , the parameters and at the end what ever we return
 func (user *User) Validate() *errors.RestErr {
+	user.FirstName = strings.TrimSpace(user.FirstName)
+	user.LastName = strings.TrimSpace(user.LastName)
 	user.Email = strings.TrimSpace(strings.ToLower(user.Email))
 	if user.Email == "" {
 		return errors.NewBadRequessrError("invalid email address")
