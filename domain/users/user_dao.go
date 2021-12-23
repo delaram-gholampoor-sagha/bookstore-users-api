@@ -101,6 +101,7 @@ func (user *User) Delete() *errors.RestErr {
 	return nil
 }
 
+// => /internal/users/search?status=active
 func (user *User) FindUserByStatus(status string) ([]User, *errors.RestErr) {
 
 	stmt, err := users_db.Client.Prepare(queryFindUserByStatus)
