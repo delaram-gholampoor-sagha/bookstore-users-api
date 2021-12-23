@@ -11,14 +11,13 @@ import (
 	"fmt"
 
 	"github.com/delaram-gholampoor-sagha/bookstore-users-api/datasources/mysql/users_db"
-	"github.com/delaram-gholampoor-sagha/bookstore-users-api/utils/date_utils"
 	"github.com/delaram-gholampoor-sagha/bookstore-users-api/utils/errors"
 	"github.com/delaram-gholampoor-sagha/bookstore-users-api/utils/mysql_utils"
 )
 
 const (
 	indexUniqueEmail      = "email_UNIQUE"
-	queryInsertUser       = "INSERT INTO users(first_name , last_name , email , date_created) VALUES(?, ?, ?, ?);"
+	queryInsertUser       = "INSERT INTO users(first_name , last_name , email , date_created , password , status) VALUES(?, ?, ?, ?);"
 	GetUser               = "SELECT id , first_name , last_name , email , date_created  FROM users WHERE id = ? ;"
 	queryUpdateUser       = "UPDATE users SET first_name = ? , last_name = ? , email = ? WHERE id = ? ;"
 	queryDeleteUser       = "DELETE FROM users WHERE id = ? ;"
@@ -53,9 +52,7 @@ func (user *User) Save() *errors.RestErr {
 
 	defer stmt.Close()
 
-	user.DateCreated = date_utils.GetNowString()
-
-	insertResult, saveErr := stmt.Exec(queryInsertUser, user.FirstName, user.LastName, user.Email, user.DateCreated)
+	insertResult, saveErr := stmt.Exec(user.FirstName, user.LastName, user.Email, user.DateCreated, user.Password, user.DateCreated)
 	if saveErr != nil {
 		return mysql_utils.ParseError(saveErr)
 	}
