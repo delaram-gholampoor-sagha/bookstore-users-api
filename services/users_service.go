@@ -30,10 +30,12 @@ func UpdateUser(isPartial bool, user users.User) (*users.User, *errors.RestErr) 
 	// take the current user that exist
 	// in both cases partial and not partial we need the current user
 	current, err := GetUser(user.Id)
+	// if we dont have any user return nil
 	if err != nil {
 		return nil, err
 	}
 
+	// if we have a user validate it
 	if err := user.Validate(); err != nil {
 		return nil, err
 	}
@@ -59,5 +61,13 @@ func UpdateUser(isPartial bool, user users.User) (*users.User, *errors.RestErr) 
 	}
 
 	return current, nil
+
+}
+
+// what are the possible results that you might get from deleting a user ? probably just an error
+
+func DeleteUser(userId int64) *error.RestErr {
+	user := &users.User{Id: userId}
+	return users.Delete()
 
 }

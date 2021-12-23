@@ -15,8 +15,9 @@ import (
 const (
 	indexUniqueEmail = "email_UNIQUE"
 	queryInsertUser  = "INSERT INTO users(first_name , last_name , email , date_created) VALUES(?, ?, ?, ?);"
-	GetUser          = "SELECT id , first_name , last_name , email , date_created  FROM users WHERE id = ?"
-	queryUpdateuser  = "UPDATE users SET first_name = ? , last_name = ? , email = ? WHERE id = ?"
+	GetUser          = "SELECT id , first_name , last_name , email , date_created  FROM users WHERE id = ? ;"
+	queryUpdateuser  = "UPDATE users SET first_name = ? , last_name = ? , email = ? WHERE id = ? ;"
+	queryDeleteuser  = "DELETE FROM users WHERE id = ? ;"
 )
 
 // when we say get we get a user by its id (primary key)
@@ -80,4 +81,17 @@ func (user *User) Update() *errors.RestErr {
 
 	return nil
 
+}
+
+func (user *User) Delete() *errors.RestErr {
+	stmt, err := users_db.Client.Prepare(queryDeleteuser)
+	if err != nil {
+		return errors.NewIntervalServerError(err.Error())
+	}
+	defer stmt.Close()
+	_, err = stmt.Exec(user.Id)
+	if err != nil {
+		return mysql_utils.ParseError(err)
+	}
+	return nil
 }
