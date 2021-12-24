@@ -45,6 +45,7 @@ func init() {
 		panic(err)
 	}
 	if err = Client.Ping(); err != nil {
+
 		panic(err)
 	}
 	// if we reach this point it means that we have a valid database to connect
