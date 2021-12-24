@@ -7,16 +7,31 @@ import (
 	"github.com/delaram-gholampoor-sagha/bookstore-users-api/utils/errors"
 )
 
-func GetUser(userId int64) (*users.User, *errors.RestErr) {
-	result := &users.User{Id: userId}
-	if err := result.Get(); err != nil {
+var (
+	UsersService usersServiceInterface = &usersService{}
+)
+
+type usersService struct {
+}
+
+type usersServiceInterface interface {
+	GetUser(userId int64) (*users.User, *errors.RestErr)
+	CreateUser(user users.User) (*users.User, *errors.RestErr)
+	UpdateUser(isPartial bool, user users.User) (*users.User, *errors.RestErr)
+	DeleteUser(userId int64) *errors.RestErr
+	SearchUser(status string) (users.Users, *errors.RestErr)
+}
+
+func (s *usersService) GetUser(userId int64) (*users.User, *errors.RestErr) {
+	dao := &users.User{Id: userId}
+	if err := dao.Get(); err != nil {
 		return nil, err
 	}
-	return result, nil
+	return dao, nil
 }
 
 // if your function needs to return an error , it needs to be at the end
-func CreateUser(user users.User) (*users.User, *errors.RestErr) {
+func (s *usersService) CreateUser(user users.User) (*users.User, *errors.RestErr) {
 
 	if err := user.Validate(); err != nil {
 		return nil, err
@@ -30,19 +45,19 @@ func CreateUser(user users.User) (*users.User, *errors.RestErr) {
 	return &user, nil
 }
 
-func UpdateUser(isPartial bool, user users.User) (*users.User, *errors.RestErr) {
+func (s *usersService) UpdateUser(isPartial bool, user users.User) (*users.User, *errors.RestErr) {
 	// take the current user that exist
 	// in both cases partial and not partial we need the current user
-	current, err := GetUser(user.Id)
+	current := &users.User{Id: user.Id}
 	// if we dont have any user return nil
-	if err != nil {
+	if err := current.Get(); err != nil {
 		return nil, err
 	}
 
 	// if we have a user validate it
-	if err := user.Validate(); err != nil {
-		return nil, err
-	}
+	// if err := user.Validate(); err != nil {
+	// 	return nil, err
+	// }
 
 	if isPartial {
 		if user.FirstName == "" {
@@ -60,7 +75,7 @@ func UpdateUser(isPartial bool, user users.User) (*users.User, *errors.RestErr) 
 		current.LastName = user.LastName
 		current.Email = user.Email
 	}
-	if err := user.Update(); err != nil {
+	if err := current.Update(); err != nil {
 		return nil, err
 	}
 
@@ -70,13 +85,13 @@ func UpdateUser(isPartial bool, user users.User) (*users.User, *errors.RestErr) 
 
 // what are the possible results that you might get from deleting a user ? probably just an error
 
-func DeleteUser(userId int64) *errors.RestErr {
+func (s *usersService) DeleteUser(userId int64) *errors.RestErr {
 	user := &users.User{Id: userId}
 	return user.Delete()
 
 }
 
-func Search(status string) (users.Users, *errors.RestErr) {
+func (s *usersService) SearchUser(status string) (users.Users, *errors.RestErr) {
 	dao := &users.User{}
 	return dao.FindUserByStatus(status)
 }
