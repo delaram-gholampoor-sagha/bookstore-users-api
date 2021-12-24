@@ -1,6 +1,7 @@
 package app
 
 import (
+	"github.com/delaram-gholampoor-sagha/bookstore-users-api/logger"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,6 +13,9 @@ var (
 func StartApplication() {
 
 	MapUrls()
+
+	logger.Info("about to start the application...")
+
 	router.Run(":8080")
 
 }
