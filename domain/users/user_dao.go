@@ -9,19 +9,22 @@ package users
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/delaram-gholampoor-sagha/bookstore-users-api/datasources/mysql/users_db"
 	"github.com/delaram-gholampoor-sagha/bookstore-users-api/logger"
 	"github.com/delaram-gholampoor-sagha/bookstore-users-api/utils/errors"
+	"github.com/delaram-gholampoor-sagha/bookstore-users-api/utils/mysql_utils"
 )
 
 const (
-	indexUniqueEmail      = "email_UNIQUE"
-	queryInsertUser       = "INSERT INTO users(first_name , last_name , email , date_created , status , password) VALUES(?, ?, ?, ? , ?, ?);"
-	GetUser               = "SELECT id , first_name , last_name , email , date_created , status FROM users WHERE id = ? ;"
-	queryUpdateUser       = "UPDATE users SET first_name = ? , last_name = ? , email = ? WHERE id = ? ;"
-	queryDeleteUser       = "DELETE FROM users WHERE id = ? ;"
-	queryFindUserByStatus = "SELECT id , fisrt_name , last_name , email , date_created , status FROM users WHERE status=? ;"
+	indexUniqueEmail            = "email_UNIQUE"
+	queryInsertUser             = "INSERT INTO users(first_name , last_name , email , date_created , status , password) VALUES(?, ?, ?, ? , ?, ?);"
+	GetUser                     = "SELECT id , first_name , last_name , email , date_created , status FROM users WHERE id = ? ;"
+	queryUpdateUser             = "UPDATE users SET first_name = ? , last_name = ? , email = ? WHERE id = ? ;"
+	queryDeleteUser             = "DELETE FROM users WHERE id = ? ;"
+	queryFindByStatus           = "SELECT id , fisrt_name , last_name , email , date_created , status FROM users WHERE status=? ;"
+	queryFindByEmailAndPassword = "SELECT id , first_name , last_name , email , date_created , status FROM users WHERE email = ? AND password = ? AND status = ?;"
 )
 
 // when we say get we get a user by its id (primary key)
@@ -45,6 +48,7 @@ func (user *User) Get() *errors.RestErr {
 
 	return nil
 }
+
 func (user *User) Save() *errors.RestErr {
 	// first we want to check if the query is valid
 	//better performance
@@ -111,7 +115,7 @@ func (user *User) Delete() *errors.RestErr {
 // => /internal/users/search?status=active
 func (user *User) FindUserByStatus(status string) ([]User, *errors.RestErr) {
 
-	stmt, err := users_db.Client.Prepare(queryFindUserByStatus)
+	stmt, err := users_db.Client.Prepare(queryFindByStatus)
 	if err != nil {
 		logger.Error("error when trying to prepare find users by status statement ", err)
 		return nil, errors.NewIntervalServerError("database error")
@@ -120,7 +124,7 @@ func (user *User) FindUserByStatus(status string) ([]User, *errors.RestErr) {
 	defer stmt.Close()
 
 	// if we have any error we are not going to look at  any parameters on the left
-	rows, err := stmt.Query(queryFindUserByStatus)
+	rows, err := stmt.Query(status)
 
 	if err != nil {
 		logger.Error("error when trying to find users by status ", err)
@@ -135,7 +139,7 @@ func (user *User) FindUserByStatus(status string) ([]User, *errors.RestErr) {
 		var user User
 		// we always have to pass a pointer to the scan function
 		if err := rows.Scan(&user.Id, &user.FirstName, &user.LastName, &user.Email, &user.DateCreated, &user.Status); err != nil {
-			logger.Error("error when trying to find users by status ", err)
+			logger.Error("error when scan user row into user struct ", err)
 			return nil, errors.NewIntervalServerError("database error")
 		}
 		results = append(results, user)
@@ -146,4 +150,28 @@ func (user *User) FindUserByStatus(status string) ([]User, *errors.RestErr) {
 	}
 
 	return results, nil
+}
+
+func (user *User) FIndByEmailAndPassword() *errors.RestErr {
+	stmt, err := users_db.Client.Prepare(queryFindByEmailAndPassword)
+	if err != nil {
+		// this what is returned into my system
+		logger.Error("error when trying to get user by email and password statement", err)
+		// this is what we return for the client
+		return errors.NewIntervalServerError("database error")
+	}
+	defer stmt.Close()
+
+	result := stmt.QueryRow(user.Email, user.Password, StatusActive)
+	// take what ever you have as an id in the database and use that value to populate these fields
+	if getErr := result.Scan(&user.Id, &user.FirstName, &user.LastName, &user.Email, &user.DateCreated, &user.Status); getErr != nil {
+		if strings.Contains(getErr.Error(), mysql_utils.ErrorNoRows) {
+			return errors.NewNotFoundError("invalid user credentials")
+		}
+		logger.Error("error when trying to get user by email and password", getErr)
+		return errors.NewIntervalServerError("database error")
+
+	}
+
+	return nil
 }

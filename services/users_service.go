@@ -20,6 +20,7 @@ type usersServiceInterface interface {
 	UpdateUser(isPartial bool, user users.User) (*users.User, *errors.RestErr)
 	DeleteUser(userId int64) *errors.RestErr
 	SearchUser(status string) (users.Users, *errors.RestErr)
+	LogInUser(request users.LogInRequest) (*users.User, *errors.RestErr)
 }
 
 func (s *usersService) GetUser(userId int64) (*users.User, *errors.RestErr) {
@@ -94,4 +95,17 @@ func (s *usersService) DeleteUser(userId int64) *errors.RestErr {
 func (s *usersService) SearchUser(status string) (users.Users, *errors.RestErr) {
 	dao := &users.User{}
 	return dao.FindUserByStatus(status)
+}
+
+func (s *usersService) LogInUser(request users.LogInRequest) (*users.User, *errors.RestErr) {
+	dao := &users.User{
+		Email:    request.Email,
+		Password: crypt_outils.GetMd5(request.Password),
+	}
+
+	if err := dao.FIndByEmailAndPassword(); err != nil {
+		return nil, err
+	}
+
+	return dao, nil
 }
