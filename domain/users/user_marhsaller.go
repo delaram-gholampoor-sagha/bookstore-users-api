@@ -36,7 +36,7 @@ func (users Users) Marshall(isPublic bool) []interface{} {
 func (user *User) Marshall(isPublic bool) interface{} {
 	if isPublic {
 		return PublicUser{
-			// here we have different keys in json format
+
 			Id:          user.Id,
 			DateCreated: user.DateCreated,
 			Status:      user.Status,
