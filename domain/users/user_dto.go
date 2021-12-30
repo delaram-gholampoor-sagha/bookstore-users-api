@@ -7,7 +7,7 @@ package users
 import (
 	"strings"
 
-	"github.com/delaram-gholampoor-sagha/bookstore-users-api/utils/errors"
+	"github.com/Delaram-Gholampoor-Sagha/bookstore_utils-go/rest_errors"
 )
 
 const (
@@ -29,18 +29,18 @@ type User struct {
 type Users []User
 
 // this is a method .... it contains the func keyword , the struct we are assigning this method to the name of the method  , the parameters and at the end what ever we return
-func (user *User) Validate() *errors.RestErr {
+func (user *User) Validate() rest_errors.RestErr {
 	user.FirstName = strings.TrimSpace(user.FirstName)
 	user.LastName = strings.TrimSpace(user.LastName)
 	user.Email = strings.TrimSpace(strings.ToLower(user.Email))
 	if user.Email == "" {
-		return errors.NewBadRequessrError("Invalid email address")
+		return rest_errors.NewBadRequestError("Invalid email address")
 
 	}
 
 	user.Password = strings.TrimSpace(user.Password)
 	if user.Password == "" {
-		return errors.NewBadRequessrError("Invalid Password")
+		return rest_errors.NewBadRequestError("Invalid Password")
 	}
 
 	return nil

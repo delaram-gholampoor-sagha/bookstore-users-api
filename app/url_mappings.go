@@ -5,7 +5,7 @@ import (
 	"github.com/delaram-gholampoor-sagha/bookstore-users-api/controllers/users"
 )
 
-func MapUrls() {
+func mapUrls() {
 	// we are defining the function that needs to be executed against this path
 	router.GET("/ping", ping.Ping)
 

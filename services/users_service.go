@@ -1,10 +1,10 @@
 package services
 
 import (
+	"github.com/Delaram-Gholampoor-Sagha/bookstore_utils-go/rest_errors"
 	"github.com/delaram-gholampoor-sagha/bookstore-users-api/domain/users"
 	crypt_outils "github.com/delaram-gholampoor-sagha/bookstore-users-api/utils/crypto_utils"
 	"github.com/delaram-gholampoor-sagha/bookstore-users-api/utils/date_utils"
-	"github.com/delaram-gholampoor-sagha/bookstore-users-api/utils/errors"
 )
 
 var (
@@ -15,15 +15,15 @@ type usersService struct {
 }
 
 type usersServiceInterface interface {
-	GetUser(userId int64) (*users.User, *errors.RestErr)
-	CreateUser(user users.User) (*users.User, *errors.RestErr)
-	UpdateUser(isPartial bool, user users.User) (*users.User, *errors.RestErr)
-	DeleteUser(userId int64) *errors.RestErr
-	SearchUser(status string) (users.Users, *errors.RestErr)
-	LogInUser(request users.LogInRequest) (*users.User, *errors.RestErr)
+	GetUser(userId int64) (*users.User, rest_errors.RestErr)
+	CreateUser(user users.User) (*users.User, rest_errors.RestErr)
+	UpdateUser(isPartial bool, user users.User) (*users.User, rest_errors.RestErr)
+	DeleteUser(userId int64) rest_errors.RestErr
+	SearchUser(status string) (users.Users, rest_errors.RestErr)
+	LogInUser(request users.LogInRequest) (*users.User, rest_errors.RestErr)
 }
 
-func (s *usersService) GetUser(userId int64) (*users.User, *errors.RestErr) {
+func (s *usersService) GetUser(userId int64) (*users.User, rest_errors.RestErr) {
 	dao := &users.User{Id: userId}
 	if err := dao.Get(); err != nil {
 		return nil, err
@@ -32,7 +32,7 @@ func (s *usersService) GetUser(userId int64) (*users.User, *errors.RestErr) {
 }
 
 // if your function needs to return an error , it needs to be at the end
-func (s *usersService) CreateUser(user users.User) (*users.User, *errors.RestErr) {
+func (s *usersService) CreateUser(user users.User) (*users.User, rest_errors.RestErr) {
 
 	if err := user.Validate(); err != nil {
 		return nil, err
@@ -46,7 +46,7 @@ func (s *usersService) CreateUser(user users.User) (*users.User, *errors.RestErr
 	return &user, nil
 }
 
-func (s *usersService) UpdateUser(isPartial bool, user users.User) (*users.User, *errors.RestErr) {
+func (s *usersService) UpdateUser(isPartial bool, user users.User) (*users.User, rest_errors.RestErr) {
 	// take the current user that exist
 	// in both cases partial and not partial we need the current user
 	current := &users.User{Id: user.Id}
@@ -86,18 +86,18 @@ func (s *usersService) UpdateUser(isPartial bool, user users.User) (*users.User,
 
 // what are the possible results that you might get from deleting a user ? probably just an error
 
-func (s *usersService) DeleteUser(userId int64) *errors.RestErr {
+func (s *usersService) DeleteUser(userId int64) rest_errors.RestErr {
 	user := &users.User{Id: userId}
 	return user.Delete()
 
 }
 
-func (s *usersService) SearchUser(status string) (users.Users, *errors.RestErr) {
+func (s *usersService) SearchUser(status string) (users.Users, rest_errors.RestErr) {
 	dao := &users.User{}
 	return dao.FindUserByStatus(status)
 }
 
-func (s *usersService) LogInUser(request users.LogInRequest) (*users.User, *errors.RestErr) {
+func (s *usersService) LogInUser(request users.LogInRequest) (*users.User, rest_errors.RestErr) {
 	dao := &users.User{
 		Email:    request.Email,
 		Password: crypt_outils.GetMd5(request.Password),
