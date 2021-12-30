@@ -4,7 +4,7 @@ import "encoding/json"
 
 // this is the inforamtion that you are going to retrieve when it is a public request
 type PublicUser struct {
-	Id int64 `json:"user_id"`
+	Id int64 `json:"id"`
 	// FirstName   string `json:"first_name"`
 	// LastName    string `json:"last_name"`
 	// Email       string `json:"email"`
@@ -24,16 +24,16 @@ type PrivateUser struct {
 	// Password    string `json:"password"`
 }
 
-func (users Users) Marshal(isPublic bool) []interface{} {
+func (users Users) Marshall(isPublic bool) []interface{} {
 	result := make([]interface{}, len(users))
 	for index, user := range users {
-		result[index] = user.Marshal(isPublic)
+		result[index] = user.Marshall(isPublic)
 	}
 	return result
 }
 
 // is this a public or private request ? based on this condition we wanna show different inforamtion of the user
-func (user *User) Marshal(isPublic bool) interface{} {
+func (user *User) Marshall(isPublic bool) interface{} {
 	if isPublic {
 		return PublicUser{
 			// here we have different keys in json format

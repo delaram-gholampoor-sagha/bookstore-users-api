@@ -25,23 +25,21 @@ type User struct {
 	Status      string `json:"status"`
 	Password    string `json:"password"`
 }
-
 type Users []User
 
 // this is a method .... it contains the func keyword , the struct we are assigning this method to the name of the method  , the parameters and at the end what ever we return
 func (user *User) Validate() rest_errors.RestErr {
 	user.FirstName = strings.TrimSpace(user.FirstName)
 	user.LastName = strings.TrimSpace(user.LastName)
+
 	user.Email = strings.TrimSpace(strings.ToLower(user.Email))
 	if user.Email == "" {
-		return rest_errors.NewBadRequestError("Invalid email address")
-
+		return rest_errors.NewBadRequestError("invalid email address")
 	}
 
 	user.Password = strings.TrimSpace(user.Password)
 	if user.Password == "" {
-		return rest_errors.NewBadRequestError("Invalid Password")
+		return rest_errors.NewBadRequestError("invalid password")
 	}
-
 	return nil
 }

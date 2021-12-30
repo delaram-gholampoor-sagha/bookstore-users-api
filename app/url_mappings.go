@@ -9,9 +9,9 @@ func mapUrls() {
 	// we are defining the function that needs to be executed against this path
 	router.GET("/ping", ping.Ping)
 
-	router.GET("/users/:user_id", users.Get)
-
 	router.POST("/users", users.Create)
+
+	router.GET("/users/:user_id", users.Get)
 
 	router.PUT("/users/:user_id", users.Update)
 

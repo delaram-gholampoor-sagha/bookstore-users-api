@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
+	// "github.com/Delaram-Gholampoor-Sagha/bookstore_oauth-go/oauth"
 	"github.com/Delaram-Gholampoor-Sagha/bookstore_oauth-go/oauth"
 	"github.com/Delaram-Gholampoor-Sagha/bookstore_utils-go/rest_errors"
 	"github.com/delaram-gholampoor-sagha/bookstore-users-api/domain/users"
@@ -59,7 +60,7 @@ func Create(c *gin.Context) {
 		c.JSON(saveErr.Status(), saveErr)
 		return
 	}
-	c.JSON(http.StatusCreated, result.Marshal(c.GetHeader("X-Public") == "true"))
+	c.JSON(http.StatusCreated, result.Marshall(c.GetHeader("X-Public") == "true"))
 }
 
 func Get(c *gin.Context) {
@@ -85,12 +86,12 @@ func Get(c *gin.Context) {
 	}
 
 	if oauth.GetCallerId(c.Request) == user.Id {
-		c.JSON(http.StatusOK, user.Marshal(false))
+		c.JSON(http.StatusOK, user.Marshall(false))
 		return
 	}
 
 	// we are extracting the header from our request to see whether this request is a private or publiv request
-	c.JSON(http.StatusOK, user.Marshal(oauth.IsPublic(c.Request)))
+	c.JSON(http.StatusOK, user.Marshall(oauth.IsPublic(c.Request)))
 }
 
 func Update(c *gin.Context) {
@@ -120,7 +121,7 @@ func Update(c *gin.Context) {
 		c.JSON(err.Status(), err)
 		return
 	}
-	c.JSON(http.StatusOK, result.Marshal(c.GetHeader("X-Public") == "true"))
+	c.JSON(http.StatusOK, result.Marshall(c.GetHeader("X-Public") == "true"))
 
 }
 
@@ -158,7 +159,7 @@ func Search(c *gin.Context) {
 	// 	result[index] = user.Marshal(c.GetHeader("X-Public") == "true")
 	// }
 
-	c.JSON(http.StatusOK, users.Marshal(c.GetHeader("X-Public") == "true"))
+	c.JSON(http.StatusOK, users.Marshall(c.GetHeader("X-Public") == "true"))
 }
 
 func Login(c *gin.Context) {

@@ -21,7 +21,7 @@ import (
 
 const (
 	indexUniqueEmail            = "email_UNIQUE"
-	queryInsertUser             = "INSERT INTO users(first_name , last_name , email , date_created , status , password) VALUES(?, ?, ?, ? , ?, ?);"
+	queryInsertUser             = "INSERT INTO users(first_name, last_name, email, date_created, status, password) VALUES(?, ?, ?, ?, ?, ?);"
 	GetUser                     = "SELECT id , first_name , last_name , email , date_created , status FROM users WHERE id = ? ;"
 	queryUpdateUser             = "UPDATE users SET first_name = ? , last_name = ? , email = ? WHERE id = ? ;"
 	queryDeleteUser             = "DELETE FROM users WHERE id = ? ;"
@@ -56,24 +56,22 @@ func (user *User) Save() rest_errors.RestErr {
 	//better performance
 	stmt, err := users_db.Client.Prepare(queryInsertUser)
 	if err != nil {
-		logger.Error("error when trying to prepare  save user statement", err)
-		return rest_errors.NewInternalServerError("error when trying to save user", errors.New("database error"))
+		logger.Error("error when trying to prepare save user statement", err)
+		return rest_errors.NewInternalServerError("error when tying to save user", errors.New("database error"))
 	}
-
 	defer stmt.Close()
 
 	insertResult, saveErr := stmt.Exec(user.FirstName, user.LastName, user.Email, user.DateCreated, user.Status, user.Password)
 	if saveErr != nil {
-		logger.Error("error when trying to prepare  save user ", saveErr)
-		return rest_errors.NewInternalServerError("error when trying to save user", errors.New("database error"))
+		logger.Error("error when trying to save user", saveErr)
+		return rest_errors.NewInternalServerError("error when tying to save user", errors.New("database error"))
 	}
 
 	userId, err := insertResult.LastInsertId()
 	if err != nil {
-		logger.Error("error when trying to get last insert id after creating a new user ", err)
-		return rest_errors.NewInternalServerError("error when trying to save user", errors.New("database error"))
+		logger.Error("error when trying to get last insert id after creating a new user", err)
+		return rest_errors.NewInternalServerError("error when tying to save user", errors.New("database error"))
 	}
-
 	user.Id = userId
 	return nil
 }

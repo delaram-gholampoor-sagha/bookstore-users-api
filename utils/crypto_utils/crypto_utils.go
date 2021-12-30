@@ -1,4 +1,4 @@
-package crypt_outils
+package crypto_utils
 
 import (
 	"crypto/md5"

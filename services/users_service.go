@@ -3,7 +3,7 @@ package services
 import (
 	"github.com/Delaram-Gholampoor-Sagha/bookstore_utils-go/rest_errors"
 	"github.com/delaram-gholampoor-sagha/bookstore-users-api/domain/users"
-	crypt_outils "github.com/delaram-gholampoor-sagha/bookstore-users-api/utils/crypto_utils"
+	"github.com/delaram-gholampoor-sagha/bookstore-users-api/utils/crypto_utils"
 	"github.com/delaram-gholampoor-sagha/bookstore-users-api/utils/date_utils"
 )
 
@@ -16,7 +16,7 @@ type usersService struct {
 
 type usersServiceInterface interface {
 	GetUser(userId int64) (*users.User, rest_errors.RestErr)
-	CreateUser(user users.User) (*users.User, rest_errors.RestErr)
+	CreateUser(users.User) (*users.User, rest_errors.RestErr)
 	UpdateUser(isPartial bool, user users.User) (*users.User, rest_errors.RestErr)
 	DeleteUser(userId int64) rest_errors.RestErr
 	SearchUser(status string) (users.Users, rest_errors.RestErr)
@@ -37,9 +37,10 @@ func (s *usersService) CreateUser(user users.User) (*users.User, rest_errors.Res
 	if err := user.Validate(); err != nil {
 		return nil, err
 	}
+
 	user.Status = users.StatusActive
 	user.DateCreated = date_utils.GetNowDBFormat()
-	user.Password = crypt_outils.GetMd5(user.Password)
+	user.Password = crypto_utils.GetMd5(user.Password)
 	if err := user.Save(); err != nil {
 		return nil, err
 	}
@@ -100,7 +101,7 @@ func (s *usersService) SearchUser(status string) (users.Users, rest_errors.RestE
 func (s *usersService) LogInUser(request users.LogInRequest) (*users.User, rest_errors.RestErr) {
 	dao := &users.User{
 		Email:    request.Email,
-		Password: crypt_outils.GetMd5(request.Password),
+		Password: crypto_utils.GetMd5(request.Password),
 	}
 
 	if err := dao.FIndByEmailAndPassword(); err != nil {
