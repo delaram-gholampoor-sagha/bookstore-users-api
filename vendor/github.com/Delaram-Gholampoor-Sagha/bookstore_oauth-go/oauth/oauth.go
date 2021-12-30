@@ -3,6 +3,7 @@ package oauth
 import (
 	"encoding/json"
 	"errors"
+
 	"fmt"
 
 	"net/http"
@@ -10,6 +11,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/Delaram-Gholampoor-Sagha/bookstore_utils-go/rest_errors"
+
+	"github.com/mercadolibre/golang-restclient/rest"
 )
 
 const (
@@ -106,6 +110,7 @@ func getAccessToken(accessTokenId string) (*accessToken, rest_errors.RestErr) {
 		if err != nil {
 			return nil, rest_errors.NewInternalServerError("invalid error interface when trying to get access token", err)
 		}
+
 		return nil, restErr
 	}
 

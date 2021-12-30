@@ -1,4 +1,4 @@
-# github.com/Delaram-Gholampoor-Sagha/bookstore_oauth-go v0.0.0-20211228160640-23e1971553dd
+# github.com/Delaram-Gholampoor-Sagha/bookstore_oauth-go v0.0.0-20211230102330-37d86cde087d
 ## explicit; go 1.17
 github.com/Delaram-Gholampoor-Sagha/bookstore_oauth-go/oauth
 # github.com/Delaram-Gholampoor-Sagha/bookstore_utils-go v0.0.0-20211229071515-1d2bc9eee046
@@ -44,6 +44,7 @@ github.com/leodido/go-urn
 github.com/mattn/go-isatty
 # github.com/mercadolibre/golang-restclient v0.0.0-20170701022150-51958130a0a0
 ## explicit
+github.com/mercadolibre/golang-restclient/rest
 # github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd
 ## explicit
 github.com/modern-go/concurrent

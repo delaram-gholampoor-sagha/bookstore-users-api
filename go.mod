@@ -3,7 +3,7 @@ module github.com/delaram-gholampoor-sagha/bookstore-users-api
 go 1.17
 
 require (
-	github.com/Delaram-Gholampoor-Sagha/bookstore_oauth-go v0.0.0-20211228160640-23e1971553dd
+	github.com/Delaram-Gholampoor-Sagha/bookstore_oauth-go v0.0.0-20211230102330-37d86cde087d
 	github.com/Delaram-Gholampoor-Sagha/bookstore_utils-go v0.0.0-20211229071515-1d2bc9eee046
 	github.com/gin-gonic/gin v1.7.7
 	github.com/go-sql-driver/mysql v1.6.0
