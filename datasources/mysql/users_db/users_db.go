@@ -3,11 +3,13 @@ package users_db
 import (
 	"database/sql"
 	"fmt"
-	"log"
+
 	"os"
 
 	// we are using this import for the open collection method
 
+	"github.com/Delaram-Gholampoor-Sagha/bookstore_utils-go/logger"
+	"github.com/go-sql-driver/mysql"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -49,7 +51,10 @@ func init() {
 		panic(err)
 	}
 	// if we reach this point it means that we have a valid database to connect
+	if err := mysql.SetLogger(logger.GetLogger()); err != nil {
 
-	log.Println("database successfully configured")
+		return
+
+	}
 
 }

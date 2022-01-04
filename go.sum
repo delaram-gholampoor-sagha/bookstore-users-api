@@ -2,6 +2,8 @@ github.com/Delaram-Gholampoor-Sagha/bookstore_oauth-go v0.0.0-20211230102330-37d
 github.com/Delaram-Gholampoor-Sagha/bookstore_oauth-go v0.0.0-20211230102330-37d86cde087d/go.mod h1:PC0pZLx5KSHs3cRiVxdvaD5yZJ6/TwVfNJeczI9kzyM=
 github.com/Delaram-Gholampoor-Sagha/bookstore_utils-go v0.0.0-20211229071515-1d2bc9eee046 h1:jJtEX4DOMl4EKYe/87ayr2qHnAf1a0n6gRcHmYAEXQs=
 github.com/Delaram-Gholampoor-Sagha/bookstore_utils-go v0.0.0-20211229071515-1d2bc9eee046/go.mod h1:l81c5QImAKeyHILvZ/hIo77TpPojTOLrMu3NVMOyngM=
+github.com/Delaram-Gholampoor-Sagha/bookstore_utils-go v0.0.0-20211230070803-019812a2beb1 h1:6j+P/InWIAle7C0Iw+roN3Ih8xt6MVmJVDhuMhkM8B4=
+github.com/Delaram-Gholampoor-Sagha/bookstore_utils-go v0.0.0-20211230070803-019812a2beb1/go.mod h1:l81c5QImAKeyHILvZ/hIo77TpPojTOLrMu3NVMOyngM=
 github.com/benbjohnson/clock v1.1.0 h1:Q92kusRqC1XV2MjkWETPvjJVqKetz1OzxZB7mHJLju8=
 github.com/benbjohnson/clock v1.1.0/go.mod h1:J11/hYXuz8f4ySSvYwY0FKfm+ezbsZBKZxNJlLklBHA=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=

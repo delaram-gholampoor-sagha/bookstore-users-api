@@ -1,46 +1,44 @@
 # github.com/Delaram-Gholampoor-Sagha/bookstore_oauth-go v0.0.0-20211230102330-37d86cde087d
-## explicit; go 1.17
+## explicit
 github.com/Delaram-Gholampoor-Sagha/bookstore_oauth-go/oauth
-# github.com/Delaram-Gholampoor-Sagha/bookstore_utils-go v0.0.0-20211229071515-1d2bc9eee046
-## explicit; go 1.17
+# github.com/Delaram-Gholampoor-Sagha/bookstore_utils-go v0.0.0-20211230070803-019812a2beb1
+## explicit
+github.com/Delaram-Gholampoor-Sagha/bookstore_utils-go/logger
 github.com/Delaram-Gholampoor-Sagha/bookstore_utils-go/rest_errors
 # github.com/gin-contrib/sse v0.1.0
-## explicit; go 1.12
+## explicit
 github.com/gin-contrib/sse
 # github.com/gin-gonic/gin v1.7.7
-## explicit; go 1.13
+## explicit
 github.com/gin-gonic/gin
 github.com/gin-gonic/gin/binding
 github.com/gin-gonic/gin/internal/bytesconv
 github.com/gin-gonic/gin/internal/json
 github.com/gin-gonic/gin/render
 # github.com/go-playground/locales v0.14.0
-## explicit; go 1.13
+## explicit
 github.com/go-playground/locales
 github.com/go-playground/locales/currency
 # github.com/go-playground/universal-translator v0.18.0
-## explicit; go 1.13
+## explicit
 github.com/go-playground/universal-translator
 # github.com/go-playground/validator/v10 v10.9.0
-## explicit; go 1.13
+## explicit
 github.com/go-playground/validator/v10
 # github.com/go-sql-driver/mysql v1.6.0
-## explicit; go 1.10
+## explicit
 github.com/go-sql-driver/mysql
 # github.com/golang/protobuf v1.5.2
-## explicit; go 1.9
+## explicit
 github.com/golang/protobuf/proto
-# github.com/joho/godotenv v1.4.0
-## explicit; go 1.12
-github.com/joho/godotenv
 # github.com/json-iterator/go v1.1.12
-## explicit; go 1.12
+## explicit
 github.com/json-iterator/go
 # github.com/leodido/go-urn v1.2.1
-## explicit; go 1.13
+## explicit
 github.com/leodido/go-urn
 # github.com/mattn/go-isatty v0.0.14
-## explicit; go 1.12
+## explicit
 github.com/mattn/go-isatty
 # github.com/mercadolibre/golang-restclient v0.0.0-20170701022150-51958130a0a0
 ## explicit
@@ -49,19 +47,19 @@ github.com/mercadolibre/golang-restclient/rest
 ## explicit
 github.com/modern-go/concurrent
 # github.com/modern-go/reflect2 v1.0.2
-## explicit; go 1.12
+## explicit
 github.com/modern-go/reflect2
 # github.com/ugorji/go/codec v1.2.6
-## explicit; go 1.11
+## explicit
 github.com/ugorji/go/codec
 # go.uber.org/atomic v1.7.0
-## explicit; go 1.13
+## explicit
 go.uber.org/atomic
 # go.uber.org/multierr v1.6.0
-## explicit; go 1.12
+## explicit
 go.uber.org/multierr
 # go.uber.org/zap v1.19.1
-## explicit; go 1.13
+## explicit
 go.uber.org/zap
 go.uber.org/zap/buffer
 go.uber.org/zap/internal/bufferpool
@@ -69,21 +67,21 @@ go.uber.org/zap/internal/color
 go.uber.org/zap/internal/exit
 go.uber.org/zap/zapcore
 # golang.org/x/crypto v0.0.0-20211117183948-ae814b36b871
-## explicit; go 1.17
+## explicit
 golang.org/x/crypto/sha3
 # golang.org/x/sys v0.0.0-20211124211545-fe61309f8881
-## explicit; go 1.17
+## explicit
 golang.org/x/sys/cpu
 golang.org/x/sys/internal/unsafeheader
 golang.org/x/sys/unix
 # golang.org/x/text v0.3.7
-## explicit; go 1.17
+## explicit
 golang.org/x/text/internal/language
 golang.org/x/text/internal/language/compact
 golang.org/x/text/internal/tag
 golang.org/x/text/language
 # google.golang.org/protobuf v1.27.1
-## explicit; go 1.9
+## explicit
 google.golang.org/protobuf/encoding/prototext
 google.golang.org/protobuf/encoding/protowire
 google.golang.org/protobuf/internal/descfmt
@@ -112,5 +110,5 @@ google.golang.org/protobuf/runtime/protoiface
 google.golang.org/protobuf/runtime/protoimpl
 google.golang.org/protobuf/types/descriptorpb
 # gopkg.in/yaml.v2 v2.4.0
-## explicit; go 1.15
+## explicit
 gopkg.in/yaml.v2

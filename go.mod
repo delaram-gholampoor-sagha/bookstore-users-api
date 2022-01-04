@@ -4,10 +4,10 @@ go 1.17
 
 require (
 	github.com/Delaram-Gholampoor-Sagha/bookstore_oauth-go v0.0.0-20211230102330-37d86cde087d
-	github.com/Delaram-Gholampoor-Sagha/bookstore_utils-go v0.0.0-20211229071515-1d2bc9eee046
+	github.com/Delaram-Gholampoor-Sagha/bookstore_utils-go v0.0.0-20211230070803-019812a2beb1
 	github.com/gin-gonic/gin v1.7.7
 	github.com/go-sql-driver/mysql v1.6.0
-	go.uber.org/zap v1.19.1
+	go.uber.org/zap v1.19.1 // indirect
 )
 
 require (

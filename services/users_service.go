@@ -31,7 +31,7 @@ func (s *usersService) GetUser(userId int64) (*users.User, rest_errors.RestErr) 
 	return dao, nil
 }
 
-// if your function needs to return an error , it needs to be at the end
+// if your function needs to return an error , it needs to be at the end .
 func (s *usersService) CreateUser(user users.User) (*users.User, rest_errors.RestErr) {
 
 	if err := user.Validate(); err != nil {

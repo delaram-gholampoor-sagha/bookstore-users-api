@@ -15,10 +15,11 @@ type RestErr interface {
 }
 
 type restErr struct {
-	ErrMessage string        `json:"message"`
-	ErrStatus  int           `json:"status"`
-	ErrError   string        `json:"error"`
-	ErrCauses  []interface{} `json:"causes"`
+	ErrMessage string `json:"message"`
+	ErrStatus  int    `json:"status"`
+	ErrError   string `json:"error"`
+	// these are the causes of this error => ErrMessage string        `json:"message"`
+	ErrCauses []interface{} `json:"causes"`
 }
 
 func (e restErr) Error() string {

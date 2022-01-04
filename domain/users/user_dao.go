@@ -12,9 +12,10 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/Delaram-Gholampoor-Sagha/bookstore_utils-go/logger"
+
 	"github.com/Delaram-Gholampoor-Sagha/bookstore_utils-go/rest_errors"
 	"github.com/delaram-gholampoor-sagha/bookstore-users-api/datasources/mysql/users_db"
-	"github.com/delaram-gholampoor-sagha/bookstore-users-api/logger"
 
 	"github.com/delaram-gholampoor-sagha/bookstore-users-api/utils/mysql_utils"
 )
